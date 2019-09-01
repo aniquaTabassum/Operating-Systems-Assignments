@@ -75,21 +75,25 @@ class Main {
     public static void main(String[] args) throws Exception {
         // Read read = new Read();
         // Write write = new Write();
-        //Thread t1 = new Thread(read);
+        Thread t1 = new Thread(new Read(1));
         //t1.setName("thread1");
-        //Thread t2 = new Thread(read);
+        Thread t2 = new Thread(new Read(2));
         // t2.setName("thread2");
-        // Thread t3 = new Thread(write);
+         Thread t3 = new Thread(new Write(1));
         //t3.setName("thread3");
-        //Thread t4 = new Thread(write);
+        Thread t4 = new Thread(new Write(2));
         //t4.setName("thread4");
         ExecutorService executor= Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         while (true) {
-            executor.execute(new Read(1));
+           /* executor.execute(new Read(1));
             executor.execute(new Read(2));
             executor.execute(new Write(1));
 
-            executor.execute(new Write(2));
+            executor.execute(new Write(2));*/
+           t1.run();
+           t2.run();
+           t3.run();
+           t4.run();
         }
 
         // t1.start();
