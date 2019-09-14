@@ -13,7 +13,7 @@ class Main {
     static int readerCount = 0;
     static Semaphore readerSemaphore = new Semaphore(1);
     static Semaphore writerSemaphore = new Semaphore(1);
-    static Vector<Integer> vector = new Vector<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9,20,11,12));
+    static Vector<Integer> vector = new Vector<Integer>(Arrays.asList(1,2,3,4,5,6));
 
     static class Read implements Runnable {
         int id = 0;
@@ -65,6 +65,12 @@ class Main {
                 Thread.sleep(2500);
                 vector.add(n);
                 System.out.println("Writer "+id + " has finished WRITING");
+                System.out.print("Values in buffer :");
+                for(int i=0;i<vector.size();i++)
+                {
+                    System.out.print(vector.get(i)+" ");
+                }
+                System.out.println();
                 writerSemaphore.release();
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
@@ -73,8 +79,6 @@ class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        // Read read = new Read();
-        // Write write = new Write();
         Thread t1 = new Thread(new Read(1));
         //t1.setName("thread1");
         Thread t2 = new Thread(new Read(2));
@@ -84,22 +88,16 @@ class Main {
         Thread t4 = new Thread(new Write(2));
         //t4.setName("thread4");
         ExecutorService executor= Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        while (true) {
-           /* executor.execute(new Read(1));
-            executor.execute(new Read(2));
-            executor.execute(new Write(1));
-
-            executor.execute(new Write(2));*/
+        System.out.print("Values in buffer :");
+        for(int i=0;i<vector.size();i++)
+        {
+            System.out.print(vector.get(i)+" ");
+        }
+        System.out.println();
            t1.run();
            t2.run();
            t3.run();
            t4.run();
-        }
-
-        // t1.start();
-        //t3.start();
-        //  t2.start();
-        // t4.start();
 
     }
 }
